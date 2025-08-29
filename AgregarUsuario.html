@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Formulario de Ingreso</title>
+        <link rel="stylesheet" href="css/Main.css" />
+    </head>
+    <body style="background-image: url(img/Logo.png); background-repeat: repeat; background-size: 100% 100%;">
+        <div class="form-wrapper">
+            <div class="form-container">
+                <form action="php/AgregarUsuario.php" method="post">
+                    <h1>Agregar usuario</h1>
+                    <p>ID del Usuario</p>
+                    <input type="text" id="IDUsuario" name="IDUsuario" min="5" max="5"/>
+                    <p>Nombre del Usuario</p>
+                    <input type="text" id="NombreUsuario" name="NombreUsuario" min="1" max="20"/>
+                    <p>Contraseña</p>
+                    <input type="password" id="Contraseña" name="Contraseña" />
+                    <p>Seleccione el tipo de usuario que se asignará</p>
+                    <select name="TipoUsuario" id="TipoUsuario"> 
+                        <option value="Usuario" selected>Usuario</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                    <input type="submit" name="IngresarUsuario" value="Ingresar" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

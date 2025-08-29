@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tabla de Solicitudes</title>
+        <link rel="stylesheet" href="css/Main.css">
+    </head>
+    <body>
+        <div class="contenido">
+            <h2>Lista de Solicitudes</h2>
+            <div class="filtro">
+                <label for="filter">Filtrar por:</label>
+                <select id="filterType" onchange="actualizarOpciones()">
+                    <option value="Tipo">Tipo</option>
+                    <option value="Estado">Estado</option>
+                </select>
+                <select id="filterValue">
+                    <!-- Opciones dinámicas -->
+                </select>
+                <button onclick="cargarSolicitudes()">Filtrar</button>
+                <button onclick="resetFiltro()">Resetear</button>
+            </div>
+			<div class="table-responsive">
+				<table id="solicitudes" class="tabla">
+					<thead>
+						<tr>
+							<th>ID </th>
+							<th>Estado</th>
+						</tr>
+					</thead>
+					<tbody id="tabla-body">
+						<!-- Filas generadas dinámicamente -->
+           		 	</tbody>
+       			</table>
+			</div>
+        </div>
+        <script>
+            function actualizarOpciones() {
+              let filtro = document.getElementById("filterType").value;
+              let selectFiltro = document.getElementById("filterValue");
+              // Limpiar las opciones previas
+              selectFiltro.innerHTML = "";
+            
+              if (filtro === "Tipo") {
+                selectFiltro.style.display = "inline-block";
+                const opciones = [
+                	"Osciloscopios",
+					"Fuentes",
+                    "Fuentes duales",
+                    "Multímetros",
+                    "Multímetros de gancho",
+                    "Estaciones de soldadura",
+                ];
+                opciones.forEach(opcion => {
+					let opt = document.createElement("option");
+					opt.value = opcion;
+					opt.textContent = opcion;
+					selectFiltro.appendChild(opt);
+                });
+              } else if (filtro === "Estado") {
+                selectFiltro.style.display = "inline-block";
+                const opciones = ["Disponible", "Prestado"];
+                opciones.forEach(opcion => {
+					let opt = document.createElement("option");
+					opt.value = opcion;
+					opt.textContent = opcion;
+					selectFiltro.appendChild(opt);
+                });
+              }
+            }
+            
+            function filtrarTabla() {
+        
+              // Recorremos y mostramos u ocultamos según la coincidencia
+              for (let i = 1; i < filas.length; i++) {
+                let celda = filas[i].getElementsByTagName("td")[columna];
+                if (celda) {
+					let texto = celda.textContent || celda.innerText;
+					filas[i].style.display = texto.toLowerCase() === valor ? "" : "none";
+                }
+              }
+            }
+            
+            function resetFiltro() {
+            //   // Restaurar la visualización original de la tabla
+              let filas = document.getElementById("solicitudes").getElementsByTagName("tr");
+              for (let i = 1; i < filas.length; i++) {
+                filas[i].style.display = "";
+              }
+              // Reiniciar el segundo filtro y actualizarlo
+              document.getElementById("filterValue").innerHTML = "";
+              actualizarOpciones();
+            }
+            
+			function ObtenerFetch(filtro, selectFiltro) {
+				let file;
+
+				if (filtro !== "Tipo") { return }
+
+                switch (selectFiltro) {
+                    case "Osciloscopios": 
+                        file = "MostrarOsciloscopios"
+                        break;
+                    case "Fuentes": 
+                        file = "MostrarFuentes";
+                        break;
+                    case "Fuentes duales": 
+                        file = "MostrarFuentesDial";
+                        break;
+                    case "Multímetros": 
+                        file = "MostrarMultímetro";
+                        break;
+                    case "Multímetros de gancho": 
+                        file = "MostrarMultímetroGancho";
+                        break;
+                    case "Estaciones de soldadura": 
+                        file = "MostrarEstacionesSoldadura";
+                        break;
+                    default:
+                        return
+                }
+
+				return file
+			}
+
+            function cargarSolicitudes() {
+				let filtro = document.getElementById("filterType").value;
+				let selectFiltro = document.getElementById("filterValue").value;
+				let ArchivoFetch = ObtenerFetch(filtro, selectFiltro);
+
+				fetch("php/fetch/" + ArchivoFetch + ".php") // Llama al script PHP
+                .then(response => response.json()) // Convierte la respuesta a JSON
+                .then(data => {
+					let tbody = document.getElementById("tabla-body");
+					tbody.innerHTML = ""; // Limpiar tabla
+				
+					data.forEach(solicitud => {
+						let fila = 
+						`<tr>
+							<td>${solicitud.ID}</td>
+							<td>${solicitud.Estado}</td>
+						</tr>`;
+						tbody.innerHTML += fila;
+						tbody.style.textAlign = "center"
+					});
+                })
+                .catch(error => console.error("Error al cargar datos:", error));
+            }
+            
+			document.addEventListener("DOMContentLoaded", function () {
+                actualizarOpciones();
+				cargarSolicitudes();
+            });
+
+            // window.onload = function () {
+			// 	cargarSolicitudes();
+			// 	actualizarOpciones();
+            // };
+        </script>      
+    </body>
+</html>

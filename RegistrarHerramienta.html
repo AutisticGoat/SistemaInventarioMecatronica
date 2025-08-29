@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Formulario de Ingreso</title>
+        <link rel="stylesheet" href="css/Main.css" />
+    </head>
+     <body style="background-image: url(img/Logo.png); background-repeat: repeat; background-size: 100% 100%;">
+        <div class="form-wrapper">
+            <div class="form-container">
+                <form action="php/AgregarHerramienta.php" method="post">
+                    <h1>Agregar usuario</h1>
+                    <p>Seleccione el tipo de herramienta</p>
+                    <select name="TipoHerramienta" id="TipoHerramienta"> 
+                        <option value="Osciloscopio">Osciloscopio</option>
+                        <option value="Fuente">Fuente</option>
+                        <option value="Fuente Dual">Fuente Dual</option>
+                        <option value="Multímetro">Multímetro</option>
+                        <option value="Multímetro de gancho">Multímetro de gancho</option>
+                        <option value="Estación de soldadura">Estación de soldadura</option>
+                    </select>
+
+                    <p>Ingrese el ID de la herramienta (debe estar escrito en la misma)</p>
+                    <input type="text" id="IDHerramienta" name="IDHerramienta" max="6"/>
+                    <input type="submit" name="IngresarUsuario" value="Ingresar" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

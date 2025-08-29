@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Menú del Sistema</title>
+        <link rel="stylesheet" href="css/Main.css" />
+        <!-- Iconos de Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            />
+        </head>
+    <body>
+        <div class="container">
+            <button class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+            </button>
+            <!-- Menú lateral -->
+            <div class="menu">
+                <h2>Menú</h2>
+                Usuario: 
+                <label id="LabelUsuario"></label>
+                <script>
+                    const UsuarioLabel = document.getElementById("LabelUsuario")
+                    
+                    fetch(`php/fetch/NombreUsuario.php`).then(response => response.json()).then(data => {
+                        UsuarioLabel.innerHTML = data.NombreTrab
+                    }).catch(error => console.error('Error en la solicitud:', error));
+                </script>
+
+                <a href="Fondo.html" onclick="cargarEnIframe(event, 'Fondo.html')">
+                    <i class="fas fa-home icono"></i>Inicio
+                </a>
+                <!-- Menú de Solicitudes -->
+
+                <div class="menu-item">
+                    <button class="submenu-toggle">
+                    <i class="fas fa-paper-plane icono"></i> Herramienta y equipo
+                    <i class="fas fa-chevron-down flecha"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li>
+                            <a href="RegistrarHerramienta.html" onclick="cargarEnIframe(event, 'RegistrarHerramienta.html')">
+                                Registrar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="MostrarHerramientas.html" onclick="cargarEnIframe(event, 'MostrarHerramientas.html')">
+                                Consulta
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ModificarHerramienta.html" onclick="cargarEnIframe(event, 'ModificarHerramienta.html')">
+                                Modificar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="EliminarHerramienta.html" onclick="cargarEnIframe(event, 'EliminarHerramienta.html')">
+                                Eliminar
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu-item">
+                    <button class="submenu-toggle">
+                    <i class="fas fa-paper-plane icono"></i> Préstamos
+                    <i class="fas fa-chevron-down flecha"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li>
+                            <a href="Préstamo.html" onclick="cargarEnIframe(event, 'Préstamo.html')"> 
+                                Realizar préstamo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Devolución.html" onclick="cargarEnIframe(event, 'Devolución.html')"> 
+                                Realizar devolución
+                            </a>
+                        </li>
+                        <li>
+                            <a href="MostrarPréstamos.html" onclick="cargarEnIframe(event, 'MostrarPréstamos.html')"> 
+                                Historial de préstamos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="MostrarDevoluciones.html" onclick="cargarEnIframe(event, 'MostrarDevoluciones.html')"> 
+                                Historial de devoluciones
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="menu-item" id="MenuUsuarioDiv">
+                    <button class="submenu-toggle" id="MenuUsuario">
+                    <i class="fas fa-paper-plane icono"></i> Usuarios
+                    <i class="fas fa-chevron-down flecha"></i>
+                    </button>
+                    <ul class="submenu">
+                        <li>
+                            <a href="AgregarUsuario.html" onclick="cargarEnIframe(event, 'AgregarUsuario.html')">
+                                Agregar usuario
+                            </a>
+                        </li>
+                        <li>
+                            <a href="EliminarUsuario.html" onclick="cargarEnIframe(event, 'EliminarUsuario.html')"> 
+                                Eliminar usuario
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Enlace de Salida -->
+                <a href="index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt icono"></i>Salida
+                </a>
+                <!-- Logo -->
+                <img src="img/Logo.png" alt="Logo" />
+            </div>
+            <!-- Contenido principal -->
+            <div class="contenido">
+                <iframe name="content-frame" src="Fondo.html"></iframe>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script>
+            // Función para mostrar/ocultar el menú lateral en dispositivos pequeños
+            function toggleMenu() {
+              const menu = document.querySelector(".menu");
+              menu.classList.toggle("open");
+            }
+            // Función para cargar contenido en el iframe y, en mobile, cerrar el menú
+            function cargarEnIframe(event, url) {
+                event.preventDefault();
+            
+                const iframe = document.querySelector(".contenido iframe");
+                iframe.src = url;
+            
+                // Si el menú se está mostrando en mobile, se cierra al hacer clic
+                const menu = document.querySelector(".menu");
+                if (menu.classList.contains("open")) {
+                    menu.classList.remove("open");
+                }
+            }
+            // Función para la animación del submenú
+            document.addEventListener("DOMContentLoaded", function () {
+                const submenuToggles = document.querySelectorAll(".submenu-toggle");
+            
+                submenuToggles.forEach((toggle) => {
+                    toggle.addEventListener("click", function () {
+                    const submenu = this.parentElement.querySelector(".submenu");
+                    submenu.classList.toggle("open");
+                    const flecha = this.querySelector(".flecha");
+                    flecha.classList.toggle("rotar");
+                    });
+                });
+
+                fetch(`php/fetch/TipoUsuario.php`).then(response => response.json()).then(data => {
+                    let MenuUsuario = document.getElementById("MenuUsuario")
+                    let MenuUsuarioDiv = document.getElementById("MenuUsuarioDiv")
+
+                    if (data.TipoUsuario == "Administrador") { return }
+                    MenuUsuarioDiv.remove()                    
+                }).catch(error => console.error('Error en la solicitud:', error));
+            });
+        </script>
+    </body>
+</html>

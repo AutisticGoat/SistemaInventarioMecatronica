@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Formulario de Ingreso</title>
+        <link rel="stylesheet" href="css/Main.css" />
+    </head>
+     <body style="background-image: url(img/Logo.png); background-repeat: repeat; background-size: 100% 100%;">
+
+        <div class="form-wrapper">
+            <div class="form-container">
+                <form action="php/Devolución.php" method="post">
+                    <h1>Devolución</h1>
+                    <h3>Seleccione el tipo de herramienta que se desea devolver</h3>
+                    <!-- <p></p> -->
+                    <select id="Herramientas" name="Herramientas">
+                        <option value="Osciloscopio">Osciloscopio</option>
+                        <option value="Fuente">Fuente</option>
+                        <option value="value3">Value 3</option>
+                    </select>
+
+                    <br>
+                    <h3>Ingrese el ID de la herramienta que se devolverá</h3>
+                    <center>
+                        <input name="ID" required> </input>
+                    </center>
+                    <br>
+                    <input type="submit" name="Devolución" value="Devolver" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

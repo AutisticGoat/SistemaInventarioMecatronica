@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Formulario de Ingreso</title>
+        <link rel="stylesheet" href="css/Main.css" />
+    </head>
+    <body style="background-image: url(img/Logo.png); background-repeat: repeat; background-size: 100% 100%;">
+        <div class="form-wrapper">
+            <div class="form-container">
+                <form action="php/Préstamo.php" method="post">
+                    <h1>Seleccione la herramienta que desea prestar</h1>
+                    <select name="Herramientas">
+                        <option value="Osciloscopio">Osciloscopio</option>
+                        <option value="Fuente">Fuente</option>
+                        <option value="value3">Value 3</option>
+                    </select>
+
+                    <input type="submit" name="Préstamo" value="Prestar" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

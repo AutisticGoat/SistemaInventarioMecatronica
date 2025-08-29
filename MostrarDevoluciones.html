@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tabla de Solicitudes</title>
+        <link rel="stylesheet" href="css/Main.css">
+    </head>
+    <body>
+        <div class="contenido">
+            <h2>Lista de Solicitudes</h2>
+            <div class="filtro">
+                <label for="filter">Filtrar por:</label>
+                <select id="filterType" onchange="actualizarOpciones()">
+                    <option value="Tipo">Tipo</option>
+                    <option value="Estado">Estado</option>
+                </select>
+                <select id="filterValue">
+                    <!-- Opciones dinámicas -->
+                </select>
+                <button onclick="filtrarTabla()">Filtrar</button>
+                <button onclick="resetFiltro()">Resetear</button>
+            </div>
+        </div>
+        <script>
+            function actualizarOpciones() {
+              let filtro = document.getElementById("filterType").value;
+              let selectFiltro = document.getElementById("filterValue");
+              // Limpiar las opciones previas
+              selectFiltro.innerHTML = "";
+            
+              // Solo se muestra el segundo filtro para "TipoSolicitud" y "EstadoSolicitud"
+              if (filtro === "TipoSolicitud") {
+                selectFiltro.style.display = "inline-block";
+                const opciones = [
+                	"Osciloscopios",
+					"Fuentes",
+                ];
+                opciones.forEach(opcion => {
+					let opt = document.createElement("option");
+					opt.value = opcion;
+					opt.textContent = opcion;
+					selectFiltro.appendChild(opt);
+                });
+              } else if (filtro === "EstadoSolicitud") {
+                selectFiltro.style.display = "inline-block";
+                const opciones = ["Aprobado", "Pendiente", "Rechazado"];
+                opciones.forEach(opcion => {
+					let opt = document.createElement("option");
+					opt.value = opcion;
+					opt.textContent = opcion;
+					selectFiltro.appendChild(opt);
+                });
+              } else {
+                // En caso de "NumTrabajador" u otra opción, se oculta el select
+                selectFiltro.style.display = "none";
+              }
+            }
+            
+            function filtrarTabla() {
+              let filtro = document.getElementById("filterType").value;
+              let valor = "";
+              
+              // Solo se toma el valor del segundo filtro si es visible (para TipoSolicitud o EstadoSolicitud)
+				//   if (filtro === "TipoSolicitud" || filtro === "EstadoSolicitud") {
+				//     valor = document.getElementById("filterValue").value.toLowerCase();
+				//   } else {
+				//     // Si se selecciona "NumTrabajador", mostramos un mensaje o podrías implementar otro mecanismo de filtrado
+				// 	alert("El filtro 'NumTrabajador' no utiliza opciones adicionales.");
+				//     return;
+				//   }
+              
+              let tabla = document.getElementById("solicitudes");
+              let filas = tabla.getElementsByTagName("tr");
+              let columna;
+              switch (filtro) {
+					case "NumTrabajador": columna = 1; break;
+					case "TipoSolicitud": columna = 3; break;
+					case "EstadoSolicitud": columna = 4; break;
+              }
+            
+              // Recorremos y mostramos u ocultamos según la coincidencia
+              for (let i = 1; i < filas.length; i++) {
+                let celda = filas[i].getElementsByTagName("td")[columna];
+                if (celda) {
+					let texto = celda.textContent || celda.innerText;
+					filas[i].style.display = texto.toLowerCase() === valor ? "" : "none";
+                }
+              }
+            }
+            
+            function resetFiltro() {
+              // Restaurar la visualización original de la tabla
+              let filas = document.getElementById("solicitudes").getElementsByTagName("tr");
+              for (let i = 1; i < filas.length; i++) {
+                filas[i].style.display = "";
+              }
+              // Reiniciar el segundo filtro y actualizarlo
+              document.getElementById("filterValue").innerHTML = "";
+              actualizarOpciones();
+            }
+            
+            function cargarSolicitudes() {
+              fetch("php/fetch/MostrarDevoluciones.php")  // Llama al script PHP
+                .then(response => response.json()) // Convierte la respuesta a JSON
+                .then(data => {
+                  let tbody = document.getElementById("tabla-body");
+                  tbody.innerHTML = ""; // Limpiar tabla
+            
+                  data.forEach(solicitud => {
+                    let fila = 
+                    `<tr>
+                        <td>${solicitud.IDDevolución}</td>
+                        <td>${solicitud.TipoHerramienta}</td>
+                        <td>${solicitud.IDHerramienta}</td>
+                        <td>${solicitud.AprobadorPréstamo}</td>
+                    </tr>`;
+                    tbody.innerHTML += fila;
+                    tbody.style.textAlign = "center"
+                  });
+                })
+                .catch(error => console.error("Error al cargar datos:", error));
+            }
+            
+            window.onload = function () {
+				cargarSolicitudes();
+				actualizarOpciones();
+            };
+        </script>      
+    </body>
+</html>
