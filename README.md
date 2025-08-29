@@ -7,6 +7,8 @@ XAMPP 8.2.12 (https://sourceforge.net/projects/xampp/files/)
 - Colocar la carpeta del repositorio dentro de htdocs
 - Nover el archivo IniciarApp.bat al escritorio (opcional)
 
+Una vez realizado, no se deben repetir los pasos
+
 # Configuración de XAMPP
 - Abrir el panel de control de XAMPP
 - Entrar a la opción de configuración de Apache
@@ -15,6 +17,8 @@ XAMPP 8.2.12 (https://sourceforge.net/projects/xampp/files/)
 - Cambiar "Listen 80" por "Listen 1234"
 - Guardar el archivo
 - Reiniciar el servicio de Apache
+
+Una vez realizado, no se deben repetir los pasos
 
 # Instalación de la base de datos
 - Abrir "localhost:1234/phpmyadmin" en tu navegador
@@ -25,6 +29,9 @@ XAMPP 8.2.12 (https://sourceforge.net/projects/xampp/files/)
 - En el recuadro Archivo a importar, haga click en examinar
 - Seleccione el archivo sistemamecatronica.sql
 - Diríjase hacia abajo del todo y haga click en IMPORTAR
+
+Una vez realizado, no se deben repetir los pasos
+
 
 # Ejecución
 - Hacer doble click en el archivo IniciarApp.bat
