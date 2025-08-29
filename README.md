@@ -17,7 +17,7 @@ XAMPP 8.2.12 (https://sourceforge.net/projects/xampp/files/)
 - Reiniciar el servicio de Apache
 
 # Instalación de la base de datos
-- Abrir "localhost:1234/phpmyadmin"
+- Abrir "localhost:1234/phpmyadmin" en tu navegador
 - En el panel izquierdo hacer click en Nueva
 - En el recuardro "Crear base de datos", nombre la base de datos como "sistemamecatronica" y luego haga click en crear
 - En el panel izquierdo seleccione la base de datos
